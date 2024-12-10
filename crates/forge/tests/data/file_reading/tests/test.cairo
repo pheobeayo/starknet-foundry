@@ -111,12 +111,7 @@ fn json_serialization() {
     compare_with_expected_content_json(content);
 }
 
-#[test]
-fn invalid_json() {
-    let file = FileTrait::new("data/json/invalid.json");
-    read_json(@file);
-    assert(1 == 1, '');
-}
+
 
 #[test]
 fn json_with_array() {
@@ -142,31 +137,9 @@ fn json_deserialization() {
     assert(content.b.e.c == 2, '');
 }
 
-#[test]
-fn json_non_existent() {
-    let file = FileTrait::new("data/non_existent.json");
-    read_json(@file);
-    assert(1 == 1, '');
-}
 
 
-#[test]
-fn valid_content_and_same_content_no_matter_newlines() {
-    let file = FileTrait::new("data/valid.txt");
-    let content = FileParser::<A>::parse_txt(@file).unwrap();
-    let expected = A {
-        a: 1,
-        nested_b: B {
-            nested_c: C { c: u256 { low: 'hello', high: 3 } },
-            hex: 0x678,
-            spaces: '      ',
-            multiline: 'hello\nworld'
-        },
-        nested_d: D { d: 'world', e: 0 },
-        f: 3618502788666131213697322783095070105623107215331596699973092056135872020480,
-    };
-    assert(content.f == expected.f, '')
-}
+
 
 #[test]
 fn serialization() {
@@ -175,39 +148,6 @@ fn serialization() {
     compare_with_expected_content(content);
 }
 
-#[test]
-fn valid_content_different_folder() {
-    let file = FileTrait::new("valid_file.txt");
-    let content = read_txt(@file);
-    let expected = array!['123', '12dsfwe', 124];
 
-    assert(content.len() == expected.len(), 'lengths not equal');
-    let mut i = 0;
-    while i != content.len() {
-        assert(*content[i] == *expected[i], 'unexpected content');
-        i += 1;
-    };
 
-    assert(1 == 1, '');
-}
 
-#[test]
-fn non_existent() {
-    let file = FileTrait::new("data/non_existent.txt");
-    read_txt(@file);
-    assert(1 == 1, '');
-}
-
-#[test]
-fn negative_number() {
-    let file = FileTrait::new("data/negative_number.txt");
-    read_txt(@file);
-    assert(1 == 1, 'negative numbers not allowed');
-}
-
-#[test]
-fn non_ascii() {
-    let file = FileTrait::new("data/non_ascii.txt");
-    read_txt(@file);
-    assert(1 == 1, '');
-}

@@ -1,5 +1,5 @@
 #[starknet::interface]
-trait IHelloStarknet<TContractState> {
+pub trait IHelloStarknet<TContractState> {
     fn increase_balance(ref self: TContractState, amount: felt252);
     fn get_balance(self: @TContractState) -> felt252;
     fn do_a_panic(self: @TContractState);
@@ -9,7 +9,7 @@ trait IHelloStarknet<TContractState> {
 #[cfg(feature: 'enable_for_tests')]
 mod dummy {
     #[starknet::contract]
-    mod HelloStarknet {
+   pub mod HelloStarknet {
         use core::array::ArrayTrait;
         use core::starknet::storage::StoragePointerWriteAccess;
         use core::starknet::storage::StoragePointerReadAccess;
@@ -19,7 +19,7 @@ mod dummy {
         }
 
         #[abi(embed_v0)]
-        impl IHelloStarknetImpl of with_features::IHelloStarknet<ContractState> {
+       pub impl IHelloStarknetImpl of with_features::IHelloStarknet<ContractState> {
             // Increases the balance by the given amount
             fn increase_balance(ref self: ContractState, amount: felt252) {
                 self.balance.write(self.balance.read() + amount);

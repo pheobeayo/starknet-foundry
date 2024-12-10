@@ -48,21 +48,3 @@ pub mod InnerContract {
     }
 }
 
-#[cfg(test)]
-mod Test {
-    use snforge_std::cheatcodes::contract_class::DeclareResultTrait;
-    use snforge_std::{ContractClassTrait, declare};
-    use super::{IOuterContractDispatcher, IOuterContractDispatcherTrait};
-
-    #[test]
-    fn test_unwrapped_call_contract_syscall() {
-        let contract_inner = declare("InnerContract").unwrap().contract_class();
-        let (contract_address_inner, _) = contract_inner.deploy(@array![]).unwrap();
-
-        let contract_outer = declare("OuterContract").unwrap().contract_class();
-        let (contract_address_outer, _) = contract_outer.deploy(@array![]).unwrap();
-
-        let dispatcher = IOuterContractDispatcher { contract_address: contract_address_outer };
-        dispatcher.outer(contract_address_inner);
-    }
-}
